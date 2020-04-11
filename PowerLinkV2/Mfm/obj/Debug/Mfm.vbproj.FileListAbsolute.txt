@@ -20,7 +20,6 @@ F:\MyWork\GitHub\PowerLinkV2\PowerLinkV2\Mfm\bin\Debug\Mfm.pdb
 F:\MyWork\GitHub\PowerLinkV2\PowerLinkV2\Mfm\bin\Debug\Mfm.xml
 F:\MyWork\GitHub\PowerLinkV2\PowerLinkV2\Mfm\bin\Debug\Interop.MSScriptControl.dll
 F:\MyWork\GitHub\PowerLinkV2\PowerLinkV2\Mfm\bin\Debug\AxInterop.MSScriptControl.dll
-F:\MyWork\GitHub\PowerLinkV2\PowerLinkV2\Mfm\obj\Debug\Mfm.vbprojResolveAssemblyReference.cache
 F:\MyWork\GitHub\PowerLinkV2\PowerLinkV2\Mfm\obj\Debug\Interop.MSScriptControl.dll
 F:\MyWork\GitHub\PowerLinkV2\PowerLinkV2\Mfm\obj\Debug\AxInterop.MSScriptControl.dll
 F:\MyWork\GitHub\PowerLinkV2\PowerLinkV2\Mfm\obj\Debug\Mfm.vbproj.ResolveComReference.cache
@@ -30,3 +29,5 @@ F:\MyWork\GitHub\PowerLinkV2\PowerLinkV2\Mfm\obj\Debug\Mfm.vbproj.GenerateResour
 F:\MyWork\GitHub\PowerLinkV2\PowerLinkV2\Mfm\obj\Debug\Mfm.dll
 F:\MyWork\GitHub\PowerLinkV2\PowerLinkV2\Mfm\obj\Debug\Mfm.xml
 F:\MyWork\GitHub\PowerLinkV2\PowerLinkV2\Mfm\obj\Debug\Mfm.pdb
+F:\MyWork\GitHub\PowerLinkV2\PowerLinkV2\Mfm\bin\Debug\AxInterop.MSHTML.dll
+F:\MyWork\GitHub\PowerLinkV2\PowerLinkV2\Mfm\obj\Debug\AxInterop.MSHTML.dll

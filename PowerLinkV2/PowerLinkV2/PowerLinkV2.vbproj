@@ -150,9 +150,11 @@
   <ItemGroup>
     <EmbeddedResource Include="ClosePermissionForm.resx">
       <DependentUpon>ClosePermissionForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
@@ -162,9 +164,11 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MyPropertyPage.resx">
       <DependentUpon>MyPropertyPage.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="SetProcedure.resx">
       <DependentUpon>SetProcedure.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

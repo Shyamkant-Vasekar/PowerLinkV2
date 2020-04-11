@@ -47,6 +47,10 @@ Public Class MainForm
     'For controled clossing
     Public ClosedByUser As Boolean = False
 
+    'For Displaying Voltages
+    Public UidBus1Kv As Int16
+    Public UidBus2Kv As Int16
+
     '====================================================================================================
     'FOR ADDING RUN TIME CONTROLS TO DRAG DROP METHOD
     '====================================================================================================
@@ -119,8 +123,8 @@ Public Class MainForm
 
 
         If Not ClosedByUser Then
-            MsgBox("Needed to be closed by Admin", MsgBoxStyle.Exclamation)
-            e.Cancel = True
+            'MsgBox("Needed to be closed by Admin", MsgBoxStyle.Exclamation)
+            'e.Cancel = True
         Else
 
             'Save work done uptill now      'Eachtime not necessary we will try for changes made falg 
@@ -143,6 +147,8 @@ Public Class MainForm
             CmbBaud.SelectedIndex = My.Settings.LastBaudRateSelNdx
             CmbPort.SelectedIndex = My.Settings.LastPortSelNdx
             SetPollingTime(My.Settings.LastPollingTimeSelNdx)
+            UidBus1Kv = My.Settings.UnitIdBus1Kv
+            UidBus2Kv = My.Settings.UnitIdBus2Kv
 
             'For local and remote database update
             MakeLocalResources()
@@ -182,6 +188,15 @@ Public Class MainForm
                 Dim x As Mfm.GeneralMfm
                 x = Cntrl
                 x.ReadData(MyModbusClient)
+
+                'Refresh kV Display
+                If x.ID = UidBus1Kv Then
+                    lblBus1Kv.Text = Format(x.VL, "000.00")
+                End If
+                If x.ID = UidBus2Kv Then
+                    lblBus2Kv.Text = Format(x.VL, "000.00")
+                End If
+
             End If
         Next
         StsLblLastRefresh.Text = Format(Now(), "HH:mm:ss")
@@ -199,6 +214,9 @@ Public Class MainForm
     End Sub
 
     'Timer to write on web tries after every 3 minutes and if one hour passed writes
+    '***************************************************************************************
+    '       NOTE: CALLED THROUGH TimerPolling_Tick even after every  3 seconds
+    '***************************************************************************************
     Private Sub TimerWebUpdate_Tick(sender As Object, e As EventArgs) Handles TimerWebUpdate.Tick
         LblWebTick.Text = Format(Now(), "HH:mm")
         Application.DoEvents()
@@ -208,10 +226,25 @@ Public Class MainForm
         Dim NowUploaded As Integer
         Dim NowUploadTm As Date
         Dim Cntrl As Control
+        Dim AllConnected As Boolean = True
+
+
+        For Each Cntrl In Me.Controls
+            If TypeOf (Cntrl) Is Mfm.GeneralMfm Then
+                Dim x As Mfm.GeneralMfm
+                x = Cntrl
+                If Not (x.Connected) Then
+                    x.Mw = Nothing
+                    AllConnected = False
+                End If
+            End If
+        Next
+
 
         'If new hour started and lapsed time is less than 5 minutes then
         'Hourly FIRST transfer data to local data set'
-        If (PreWebWrittenHr <> Now.Hour And (Now.Minute < 12)) Then
+        'If (PreWebWrittenHr <> Now.Hour And (Now.Minute < 12)) And AllConnected Then
+        If AllConnected Then
             For Each Cntrl In Me.Controls
                 If TypeOf (Cntrl) Is Mfm.GeneralMfm Then
                     Dim x As Mfm.GeneralMfm
@@ -454,7 +487,7 @@ DontTry:
         Me.TopMost = False
         ThisMeter = ContextMenuStrip1.SourceControl
         ThisMeter.ID = InputBox("Enter new ID", , ThisMeter.ID)
-        Me.TopMost = True
+        'Me.TopMost = True
     End Sub
 
     Private Sub SetBayIdTSMI_Click(sender As Object, e As EventArgs) Handles SetBayIdTSMI.Click
@@ -462,7 +495,7 @@ DontTry:
         Me.TopMost = False
         ThisMeter = ContextMenuStrip1.SourceControl
         ThisMeter.SrNo = InputBox("Enter Bay ID", , ThisMeter.SrNo)
-        Me.TopMost = True
+        'Me.TopMost = True
     End Sub
 
     Private Sub SetBayNameTSMI_Click(sender As Object, e As EventArgs) Handles SetBayNameTSMI.Click
@@ -470,7 +503,7 @@ DontTry:
         Me.TopMost = False
         ThisMeter = ContextMenuStrip1.SourceControl
         ThisMeter.Bay = InputBox("Enter Bay Name", , ThisMeter.Bay)
-        Me.TopMost = True
+        'Me.TopMost = True
     End Sub
 
     Private Sub SetColorTSMI_Click(sender As Object, e As EventArgs) Handles SetColorTSMI.Click
@@ -479,14 +512,14 @@ DontTry:
         ThisMeter = ContextMenuStrip1.SourceControl
         ColorDialog1.ShowDialog()
         ThisMeter.BackColor = ColorDialog1.Color
-        Me.TopMost = True
+        'Me.TopMost = True
     End Sub
     Private Sub DeleteTSMI_Click(sender As Object, e As EventArgs) Handles DeleteTSMI.Click
         Dim ThisMeter As Mfm.GeneralMfm
         Me.TopMost = False
         ThisMeter = ContextMenuStrip1.SourceControl
         Me.Controls.Remove(ThisMeter)
-        Me.TopMost = True
+        'Me.TopMost = True
     End Sub
 
     Private Sub SetModbusPropertiesTSMI_Click(sender As Object, e As EventArgs) Handles SetModbusPropertiesTSMI.Click
@@ -611,7 +644,7 @@ DontTry:
         End If
 
         MyPropertyPage.ShowDialog()
-        Me.TopMost = True
+        'Me.TopMost = True
     End Sub
 
 
@@ -703,6 +736,28 @@ DontTry:
 
     Private Sub CmbPollingTimer_Click(sender As Object, e As EventArgs) Handles CmbPollingTimer.Click
         SetPollingTime(CmbPollingTimer.SelectedIndex)
+    End Sub
+
+
+
+    Private Sub LinkToUnitTSMI_Click(sender As Object, e As EventArgs) Handles LinkToUnitTSMI.Click
+        Try
+            If MsgBox("NOTE: AFTER ASSIGNING THE UNIT ID NEED TO CONFIRM THE ACCURACY FOR VOLTAGE DISPLAY" & vbCrLf & vbCrLf & "WILL YOU CONFIRM THE ACCURACY FOR VOLTAGE DISPLAY", vbYesNo + vbExclamation) = vbYes Then
+                If ContextMenuStrip2.SourceControl.Name = "lblBus1Kv" Then
+                    UidBus1Kv = InputBox("Enter Unit ID for displaying Bus-1 kV")
+                    My.Settings.UnitIdBus1Kv = UidBus1Kv
+                End If
+                If ContextMenuStrip2.SourceControl.Name = "lblBus1Kv" Then
+                    UidBus2Kv = InputBox("Enter Unit ID for displaying Bus-2 kV")
+                    My.Settings.UnitIdBus2Kv = UidBus2Kv
+                End If
+            End If
+        Catch ex As Exception
+            MsgBox("Setting could not be modified" & vbCrLf & vbCrLf & "ERROR: " & ex.Message, MsgBoxStyle.Critical)
+        End Try
+
+
+
     End Sub
 End Class
 

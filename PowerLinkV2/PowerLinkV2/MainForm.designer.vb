@@ -69,9 +69,16 @@ Partial Class MainForm
         Me.StsLblRecUplodaed = New System.Windows.Forms.ToolStripStatusLabel()
         Me.ToolStripStatusLabel4 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.StsLblLastRefresh = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.lblBus1Kv = New System.Windows.Forms.Label()
+        Me.ContextMenuStrip2 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.LinkToUnitTSMI = New System.Windows.Forms.ToolStripMenuItem()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.lblBus2Kv = New System.Windows.Forms.Label()
+        Me.Label3 = New System.Windows.Forms.Label()
         Me.ToolStrip1.SuspendLayout()
         Me.ContextMenuStrip1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
+        Me.ContextMenuStrip2.SuspendLayout()
         Me.SuspendLayout()
         '
         'ToolStrip1
@@ -138,31 +145,31 @@ Partial Class MainForm
         'CmdAddAcord
         '
         Me.CmdAddAcord.Name = "CmdAddAcord"
-        Me.CmdAddAcord.Size = New System.Drawing.Size(137, 22)
+        Me.CmdAddAcord.Size = New System.Drawing.Size(152, 22)
         Me.CmdAddAcord.Text = "Acord"
         '
         'CmdAddSecureElite
         '
         Me.CmdAddSecureElite.Name = "CmdAddSecureElite"
-        Me.CmdAddSecureElite.Size = New System.Drawing.Size(137, 22)
+        Me.CmdAddSecureElite.Size = New System.Drawing.Size(152, 22)
         Me.CmdAddSecureElite.Text = "SecureElite2"
         '
         'CmdAddCustom
         '
         Me.CmdAddCustom.Name = "CmdAddCustom"
-        Me.CmdAddCustom.Size = New System.Drawing.Size(137, 22)
+        Me.CmdAddCustom.Size = New System.Drawing.Size(152, 22)
         Me.CmdAddCustom.Text = "Custom"
         '
         'SecureElite4ToolStripMenuItem
         '
         Me.SecureElite4ToolStripMenuItem.Name = "SecureElite4ToolStripMenuItem"
-        Me.SecureElite4ToolStripMenuItem.Size = New System.Drawing.Size(137, 22)
+        Me.SecureElite4ToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.SecureElite4ToolStripMenuItem.Text = "SecureElite4"
         '
         'CmdAddRishbh
         '
         Me.CmdAddRishbh.Name = "CmdAddRishbh"
-        Me.CmdAddRishbh.Size = New System.Drawing.Size(137, 22)
+        Me.CmdAddRishbh.Size = New System.Drawing.Size(152, 22)
         Me.CmdAddRishbh.Text = "Rishbh"
         '
         'ToolStripSeparator1
@@ -379,12 +386,72 @@ Partial Class MainForm
         Me.StsLblLastRefresh.Size = New System.Drawing.Size(60, 18)
         Me.StsLblLastRefresh.Text = "HH:mm"
         '
+        'lblBus1Kv
+        '
+        Me.lblBus1Kv.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.lblBus1Kv.ContextMenuStrip = Me.ContextMenuStrip2
+        Me.lblBus1Kv.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblBus1Kv.Location = New System.Drawing.Point(90, 66)
+        Me.lblBus1Kv.Name = "lblBus1Kv"
+        Me.lblBus1Kv.Size = New System.Drawing.Size(105, 23)
+        Me.lblBus1Kv.TabIndex = 2
+        Me.lblBus1Kv.Text = "###.##"
+        Me.lblBus1Kv.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'ContextMenuStrip2
+        '
+        Me.ContextMenuStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LinkToUnitTSMI})
+        Me.ContextMenuStrip2.Name = "ContextMenuStrip2"
+        Me.ContextMenuStrip2.Size = New System.Drawing.Size(153, 48)
+        '
+        'LinkToUnitTSMI
+        '
+        Me.LinkToUnitTSMI.Name = "LinkToUnitTSMI"
+        Me.LinkToUnitTSMI.Size = New System.Drawing.Size(152, 22)
+        Me.LinkToUnitTSMI.Text = "Link to UnitID"
+        '
+        'Label1
+        '
+        Me.Label1.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label1.Location = New System.Drawing.Point(12, 66)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(72, 23)
+        Me.Label1.TabIndex = 3
+        Me.Label1.Text = "Bus1-kV"
+        Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'lblBus2Kv
+        '
+        Me.lblBus2Kv.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.lblBus2Kv.ContextMenuStrip = Me.ContextMenuStrip2
+        Me.lblBus2Kv.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblBus2Kv.Location = New System.Drawing.Point(283, 66)
+        Me.lblBus2Kv.Name = "lblBus2Kv"
+        Me.lblBus2Kv.Size = New System.Drawing.Size(100, 23)
+        Me.lblBus2Kv.TabIndex = 5
+        Me.lblBus2Kv.Text = "###.##"
+        Me.lblBus2Kv.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'Label3
+        '
+        Me.Label3.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label3.Location = New System.Drawing.Point(201, 66)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(76, 23)
+        Me.Label3.TabIndex = 4
+        Me.Label3.Text = "Bus2-kV"
+        Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
         'MainForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.AliceBlue
         Me.ClientSize = New System.Drawing.Size(1159, 733)
+        Me.Controls.Add(Me.lblBus2Kv)
+        Me.Controls.Add(Me.Label3)
+        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.lblBus1Kv)
         Me.Controls.Add(Me.StatusStrip1)
         Me.Controls.Add(Me.ToolStrip1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
@@ -397,6 +464,7 @@ Partial Class MainForm
         Me.ContextMenuStrip1.ResumeLayout(False)
         Me.StatusStrip1.ResumeLayout(False)
         Me.StatusStrip1.PerformLayout()
+        Me.ContextMenuStrip2.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -446,5 +514,11 @@ Partial Class MainForm
     Friend WithEvents CmdNetSts As System.Windows.Forms.ToolStripButton
     Friend WithEvents LblWebTick As System.Windows.Forms.ToolStripLabel
     Friend WithEvents CmdClrPending As System.Windows.Forms.ToolStripButton
+    Friend WithEvents lblBus1Kv As System.Windows.Forms.Label
+    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents lblBus2Kv As System.Windows.Forms.Label
+    Friend WithEvents Label3 As System.Windows.Forms.Label
+    Friend WithEvents ContextMenuStrip2 As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents LinkToUnitTSMI As System.Windows.Forms.ToolStripMenuItem
 
 End Class

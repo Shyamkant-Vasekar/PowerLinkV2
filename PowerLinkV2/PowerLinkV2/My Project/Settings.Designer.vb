@@ -101,6 +101,30 @@ Namespace My
                 Me("FirstPollingTime") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("3")>  _
+        Public Property UnitIdBus1Kv() As Integer
+            Get
+                Return CType(Me("UnitIdBus1Kv"),Integer)
+            End Get
+            Set
+                Me("UnitIdBus1Kv") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("4")>  _
+        Public Property UnitIdBus2Kv() As Integer
+            Get
+                Return CType(Me("UnitIdBus2Kv"),Integer)
+            End Get
+            Set
+                Me("UnitIdBus2Kv") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

@@ -197,7 +197,7 @@ Partial Class GeneralMfm
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(100, 23)
         Me.Label1.TabIndex = 15
-        Me.Label1.Text = "Ampere"
+        Me.Label1.Text = "Amp/Pf"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'LblMwhE

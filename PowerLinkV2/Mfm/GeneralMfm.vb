@@ -458,11 +458,19 @@ Public Class GeneralMfm
 
     Private Sub RefreshDisplay()
         'Refreshing Acord meter display
-        LblAmp.Text = Format(Amp, ".00")
-        LblMw.Text = Format(Mw, ".00")
-        LblMvar.Text = Format(Mvar, ".00")
-        LblMwhI.Text = Format(MwhI, "000000.00")
-        LblMwhE.Text = Format(MwhE, "000000.00")
+        If Connected Then
+            LblAmp.Text = Format(Amp, ".00") & "/" & Format(Pf, "0.00")
+            LblMw.Text = Format(Mw, ".00")
+            LblMvar.Text = Format(Mvar, ".00")
+            LblMwhI.Text = Format(MwhI, "000000.00")
+            LblMwhE.Text = Format(MwhE, "000000.00")
+        Else
+            LblAmp.Text = "###.##"
+            LblMw.Text = "###.##"
+            LblMvar.Text = "###.##"
+            LblMwhI.Text = "###.##"
+            LblMwhE.Text = "###.##"
+        End If
     End Sub
 
 
