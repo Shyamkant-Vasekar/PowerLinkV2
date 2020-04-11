@@ -31,3 +31,4 @@ F:\MyWork\GitHub\PowerLinkV2\PowerLinkV2\Mfm\obj\Debug\Mfm.xml
 F:\MyWork\GitHub\PowerLinkV2\PowerLinkV2\Mfm\obj\Debug\Mfm.pdb
 F:\MyWork\GitHub\PowerLinkV2\PowerLinkV2\Mfm\bin\Debug\AxInterop.MSHTML.dll
 F:\MyWork\GitHub\PowerLinkV2\PowerLinkV2\Mfm\obj\Debug\AxInterop.MSHTML.dll
+F:\MyWork\GitHub\PowerLinkV2\PowerLinkV2\Mfm\obj\Debug\Mfm.vbprojResolveAssemblyReference.cache

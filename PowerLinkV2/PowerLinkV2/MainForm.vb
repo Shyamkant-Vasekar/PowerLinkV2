@@ -123,8 +123,8 @@ Public Class MainForm
 
 
         If Not ClosedByUser Then
-            'MsgBox("Needed to be closed by Admin", MsgBoxStyle.Exclamation)
-            'e.Cancel = True
+            MsgBox("Please use 'Close' button", MsgBoxStyle.Exclamation)
+            e.Cancel = True
         Else
 
             'Save work done uptill now      'Eachtime not necessary we will try for changes made falg 
