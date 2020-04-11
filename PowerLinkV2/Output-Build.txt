@@ -1,0 +1,7 @@
+﻿------ Rebuild All started: Project: Mfm, Configuration: Debug Any CPU ------
+  COM Reference 'MSScriptControl' is the interop assembly for ActiveX control 'AxMSScriptControl' but was marked to be linked by the compiler with the /link flag. This COM reference will be treated as a reference and will not be linked.
+  Mfm -> F:\MyWork\PowerData\MFmComExperiments\PowerLinkV2\PowerLinkV2\Mfm\bin\Debug\Mfm.dll
+------ Rebuild All started: Project: PowerLinkV2, Configuration: Debug Any CPU ------
+F:\MyWork\PowerData\MFmComExperiments\PowerLinkV2\PowerLinkV2\PowerLinkV2\LoadSaveMfm.vb(30) : warning BC42104: Variable 's' is used before it has been assigned a value. A null reference exception could result at runtime.
+  PowerLinkV2 -> F:\MyWork\PowerData\MFmComExperiments\PowerLinkV2\PowerLinkV2\PowerLinkV2\bin\Debug\PowerLinkV2.exe
+========== Rebuild All: 2 succeeded, 0 failed, 0 skipped ==========
