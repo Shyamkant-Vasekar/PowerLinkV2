@@ -226,39 +226,29 @@ Public Class MainForm
         Dim NowUploaded As Integer
         Dim NowUploadTm As Date
         Dim Cntrl As Control
-        Dim AllConnected As Boolean = True
-
-
-        For Each Cntrl In Me.Controls
-            If TypeOf (Cntrl) Is Mfm.GeneralMfm Then
-                Dim x As Mfm.GeneralMfm
-                x = Cntrl
-                If Not (x.Connected) Then
-                    x.Mw = Nothing
-                    AllConnected = False
-                End If
-            End If
-        Next
-
 
         'If new hour started and lapsed time is less than 5 minutes then
         'Hourly FIRST transfer data to local data set'
-        'If (PreWebWrittenHr <> Now.Hour And (Now.Minute < 12)) And AllConnected Then
-        If AllConnected Then
+        If (PreWebWrittenHr <> Now.Hour And (Now.Minute < 12)) Then
+            'If True Then
             For Each Cntrl In Me.Controls
                 If TypeOf (Cntrl) Is Mfm.GeneralMfm Then
                     Dim x As Mfm.GeneralMfm
                     x = Cntrl
-                    CreateDataRowInLocalDataset(x)
-                    Try
-                        PwrDataAdapterL.Update(PwrDataSetL) 'Inserted record from memory to local db file
-                    Catch ex As Exception
-                        'MsgBox(ex.Message)
-                    End Try
+                    If x.Connected Then
+                        CreateDataRowInLocalDataset(x)
+                        Try
+                            PwrDataAdapterL.Update(PwrDataSetL) 'Inserted record from memory to local db file
+                        Catch ex As Exception
+                            'MsgBox(ex.Message)
+                        End Try
+                    End If
                 End If
             Next
             PreWebWrittenHr = Now.Hour  'All Mfm Logging completed for this hour
         End If
+
+
 
         'Display Internet Status
         If NetworkAvailable Then

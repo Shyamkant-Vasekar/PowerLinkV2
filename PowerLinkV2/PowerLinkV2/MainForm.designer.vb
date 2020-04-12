@@ -145,31 +145,31 @@ Partial Class MainForm
         'CmdAddAcord
         '
         Me.CmdAddAcord.Name = "CmdAddAcord"
-        Me.CmdAddAcord.Size = New System.Drawing.Size(152, 22)
+        Me.CmdAddAcord.Size = New System.Drawing.Size(137, 22)
         Me.CmdAddAcord.Text = "Acord"
         '
         'CmdAddSecureElite
         '
         Me.CmdAddSecureElite.Name = "CmdAddSecureElite"
-        Me.CmdAddSecureElite.Size = New System.Drawing.Size(152, 22)
+        Me.CmdAddSecureElite.Size = New System.Drawing.Size(137, 22)
         Me.CmdAddSecureElite.Text = "SecureElite2"
         '
         'CmdAddCustom
         '
         Me.CmdAddCustom.Name = "CmdAddCustom"
-        Me.CmdAddCustom.Size = New System.Drawing.Size(152, 22)
+        Me.CmdAddCustom.Size = New System.Drawing.Size(137, 22)
         Me.CmdAddCustom.Text = "Custom"
         '
         'SecureElite4ToolStripMenuItem
         '
         Me.SecureElite4ToolStripMenuItem.Name = "SecureElite4ToolStripMenuItem"
-        Me.SecureElite4ToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.SecureElite4ToolStripMenuItem.Size = New System.Drawing.Size(137, 22)
         Me.SecureElite4ToolStripMenuItem.Text = "SecureElite4"
         '
         'CmdAddRishbh
         '
         Me.CmdAddRishbh.Name = "CmdAddRishbh"
-        Me.CmdAddRishbh.Size = New System.Drawing.Size(152, 22)
+        Me.CmdAddRishbh.Size = New System.Drawing.Size(137, 22)
         Me.CmdAddRishbh.Text = "Rishbh"
         '
         'ToolStripSeparator1
@@ -388,12 +388,13 @@ Partial Class MainForm
         '
         'lblBus1Kv
         '
+        Me.lblBus1Kv.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
         Me.lblBus1Kv.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblBus1Kv.ContextMenuStrip = Me.ContextMenuStrip2
-        Me.lblBus1Kv.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblBus1Kv.Font = New System.Drawing.Font("Arial", 14.0!)
         Me.lblBus1Kv.Location = New System.Drawing.Point(90, 66)
         Me.lblBus1Kv.Name = "lblBus1Kv"
-        Me.lblBus1Kv.Size = New System.Drawing.Size(105, 23)
+        Me.lblBus1Kv.Size = New System.Drawing.Size(105, 30)
         Me.lblBus1Kv.TabIndex = 2
         Me.lblBus1Kv.Text = "###.##"
         Me.lblBus1Kv.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -402,12 +403,12 @@ Partial Class MainForm
         '
         Me.ContextMenuStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LinkToUnitTSMI})
         Me.ContextMenuStrip2.Name = "ContextMenuStrip2"
-        Me.ContextMenuStrip2.Size = New System.Drawing.Size(153, 48)
+        Me.ContextMenuStrip2.Size = New System.Drawing.Size(147, 26)
         '
         'LinkToUnitTSMI
         '
         Me.LinkToUnitTSMI.Name = "LinkToUnitTSMI"
-        Me.LinkToUnitTSMI.Size = New System.Drawing.Size(152, 22)
+        Me.LinkToUnitTSMI.Size = New System.Drawing.Size(146, 22)
         Me.LinkToUnitTSMI.Text = "Link to UnitID"
         '
         'Label1
@@ -422,12 +423,13 @@ Partial Class MainForm
         '
         'lblBus2Kv
         '
+        Me.lblBus2Kv.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.lblBus2Kv.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblBus2Kv.ContextMenuStrip = Me.ContextMenuStrip2
-        Me.lblBus2Kv.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblBus2Kv.Font = New System.Drawing.Font("Arial", 14.0!)
         Me.lblBus2Kv.Location = New System.Drawing.Point(283, 66)
         Me.lblBus2Kv.Name = "lblBus2Kv"
-        Me.lblBus2Kv.Size = New System.Drawing.Size(100, 23)
+        Me.lblBus2Kv.Size = New System.Drawing.Size(100, 30)
         Me.lblBus2Kv.TabIndex = 5
         Me.lblBus2Kv.Text = "###.##"
         Me.lblBus2Kv.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
