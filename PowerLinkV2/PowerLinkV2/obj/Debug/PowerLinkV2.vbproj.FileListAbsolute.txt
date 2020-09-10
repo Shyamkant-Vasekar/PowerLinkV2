@@ -41,3 +41,4 @@ F:\MyWork\GitHub\PowerLinkV2\PowerLinkV2\PowerLinkV2\obj\Debug\PowerLinkV2.Resou
 F:\MyWork\GitHub\PowerLinkV2\PowerLinkV2\PowerLinkV2\obj\Debug\PowerLinkV2.MyPropertyPage.resources
 F:\MyWork\GitHub\PowerLinkV2\PowerLinkV2\PowerLinkV2\obj\Debug\PowerLinkV2.SetProcedure.resources
 F:\MyWork\GitHub\PowerLinkV2\PowerLinkV2\PowerLinkV2\obj\Debug\PowerLinkV2.vbproj.GenerateResource.Cache
+F:\MyWork\GitHub\PowerLinkV2\PowerLinkV2\PowerLinkV2\obj\Debug\PowerLinkV2.AboutBox1.resources

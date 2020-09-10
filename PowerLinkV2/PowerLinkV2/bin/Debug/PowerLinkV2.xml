@@ -15,6 +15,10 @@ PowerLinkV2
   Overrides the current thread's CurrentUICulture property for all
   resource lookups using this strongly typed resource class.
 </summary>
+</member><member name="P:PowerLinkV2.My.Resources.Resources.About1">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
 </member><member name="P:PowerLinkV2.My.Resources.Resources.MyMfmSsAppIco2">
 	<summary>
   Looks up a localized resource of type System.Drawing.Bitmap.

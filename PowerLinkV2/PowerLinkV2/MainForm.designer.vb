@@ -29,6 +29,8 @@ Partial Class MainForm
         Me.CmdEdit = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripLabel3 = New System.Windows.Forms.ToolStripLabel()
         Me.CmbPollingTimer = New System.Windows.Forms.ToolStripComboBox()
+        Me.ToolStripLabel4 = New System.Windows.Forms.ToolStripLabel()
+        Me.CmbWebUploadTimer = New System.Windows.Forms.ToolStripComboBox()
         Me.ToolStripSeparator5 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator()
         Me.CmdAdd = New System.Windows.Forms.ToolStripDropDownButton()
@@ -47,6 +49,7 @@ Partial Class MainForm
         Me.CmdConnect = New System.Windows.Forms.ToolStripButton()
         Me.CmdConnected = New System.Windows.Forms.ToolStripButton()
         Me.CmdNetSts = New System.Windows.Forms.ToolStripButton()
+        Me.CmdAbout = New System.Windows.Forms.ToolStripButton()
         Me.LblWebTick = New System.Windows.Forms.ToolStripLabel()
         Me.CmdClrPending = New System.Windows.Forms.ToolStripButton()
         Me.CmdClose = New System.Windows.Forms.ToolStripButton()
@@ -84,7 +87,7 @@ Partial Class MainForm
         'ToolStrip1
         '
         Me.ToolStrip1.ImageScalingSize = New System.Drawing.Size(32, 32)
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CmdRun, Me.CmdEdit, Me.ToolStripLabel3, Me.CmbPollingTimer, Me.ToolStripSeparator5, Me.ToolStripSeparator4, Me.CmdAdd, Me.ToolStripSeparator1, Me.ToolStripSeparator2, Me.ToolStripLabel1, Me.CmbBaud, Me.ToolStripSeparator3, Me.ToolStripLabel2, Me.CmbPort, Me.CmdConnect, Me.CmdConnected, Me.CmdNetSts, Me.LblWebTick, Me.CmdClrPending, Me.CmdClose})
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CmdRun, Me.CmdEdit, Me.ToolStripLabel3, Me.CmbPollingTimer, Me.ToolStripLabel4, Me.CmbWebUploadTimer, Me.ToolStripSeparator5, Me.ToolStripSeparator4, Me.CmdAdd, Me.ToolStripSeparator1, Me.ToolStripSeparator2, Me.ToolStripLabel1, Me.CmbBaud, Me.ToolStripSeparator3, Me.ToolStripLabel2, Me.CmbPort, Me.CmdConnect, Me.CmdConnected, Me.CmdNetSts, Me.LblWebTick, Me.CmdClrPending, Me.CmdClose, Me.CmdAbout})
         Me.ToolStrip1.Location = New System.Drawing.Point(0, 0)
         Me.ToolStrip1.MinimumSize = New System.Drawing.Size(48, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
@@ -122,6 +125,18 @@ Partial Class MainForm
         Me.CmbPollingTimer.Items.AddRange(New Object() {"1 Sec", "3 Sec", "5 Sec", "10 Sec", "1 Min", "3 Min", "5 Min"})
         Me.CmbPollingTimer.Name = "CmbPollingTimer"
         Me.CmbPollingTimer.Size = New System.Drawing.Size(75, 39)
+        '
+        'ToolStripLabel4
+        '
+        Me.ToolStripLabel4.Name = "ToolStripLabel4"
+        Me.ToolStripLabel4.Size = New System.Drawing.Size(45, 36)
+        Me.ToolStripLabel4.Text = "Upload"
+        '
+        'CmbWebUploadTimer
+        '
+        Me.CmbWebUploadTimer.Items.AddRange(New Object() {"1 min", "5 min", "15 min", "30 min", "60 min"})
+        Me.CmbWebUploadTimer.Name = "CmbWebUploadTimer"
+        Me.CmbWebUploadTimer.Size = New System.Drawing.Size(75, 39)
         '
         'ToolStripSeparator5
         '
@@ -245,6 +260,18 @@ Partial Class MainForm
         Me.CmdNetSts.Size = New System.Drawing.Size(36, 36)
         Me.CmdNetSts.Text = "ToolStripButton1"
         '
+        'CmdAbout
+        '
+        Me.CmdAbout.BackColor = System.Drawing.Color.PaleGreen
+        Me.CmdAbout.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.CmdAbout.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.CmdAbout.Image = CType(resources.GetObject("CmdAbout.Image"), System.Drawing.Image)
+        Me.CmdAbout.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.CmdAbout.Name = "CmdAbout"
+        Me.CmdAbout.Size = New System.Drawing.Size(45, 36)
+        Me.CmdAbout.Text = "About"
+        Me.CmdAbout.ToolTipText = "Application information and license terms."
+        '
         'LblWebTick
         '
         Me.LblWebTick.Name = "LblWebTick"
@@ -253,23 +280,25 @@ Partial Class MainForm
         '
         'CmdClrPending
         '
-        Me.CmdClrPending.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(128, Byte), Integer))
+        Me.CmdClrPending.BackColor = System.Drawing.Color.LightGray
         Me.CmdClrPending.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
         Me.CmdClrPending.Image = CType(resources.GetObject("CmdClrPending.Image"), System.Drawing.Image)
         Me.CmdClrPending.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.CmdClrPending.Name = "CmdClrPending"
         Me.CmdClrPending.Size = New System.Drawing.Size(38, 36)
         Me.CmdClrPending.Text = "Celar"
+        Me.CmdClrPending.ToolTipText = "Celar the pending records"
         '
         'CmdClose
         '
-        Me.CmdClose.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(128, Byte), Integer))
+        Me.CmdClose.BackColor = System.Drawing.Color.Silver
         Me.CmdClose.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
         Me.CmdClose.Image = CType(resources.GetObject("CmdClose.Image"), System.Drawing.Image)
         Me.CmdClose.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.CmdClose.Name = "CmdClose"
         Me.CmdClose.Size = New System.Drawing.Size(40, 36)
         Me.CmdClose.Text = "Close"
+        Me.CmdClose.ToolTipText = "Close the application"
         '
         'TimerPolling
         '
@@ -277,7 +306,7 @@ Partial Class MainForm
         '
         'TimerWebUpdate
         '
-        Me.TimerWebUpdate.Interval = 60000
+        Me.TimerWebUpdate.Interval = 3600000
         '
         'ContextMenuStrip1
         '
@@ -522,5 +551,8 @@ Partial Class MainForm
     Friend WithEvents Label3 As System.Windows.Forms.Label
     Friend WithEvents ContextMenuStrip2 As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents LinkToUnitTSMI As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripLabel4 As System.Windows.Forms.ToolStripLabel
+    Friend WithEvents CmbWebUploadTimer As System.Windows.Forms.ToolStripComboBox
+    Friend WithEvents CmdAbout As System.Windows.Forms.ToolStripButton
 
 End Class

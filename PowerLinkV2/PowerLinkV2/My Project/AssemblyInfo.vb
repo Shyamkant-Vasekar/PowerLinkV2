@@ -9,10 +9,10 @@ Imports System.Runtime.InteropServices
 ' Review the values of the assembly attributes
 
 <Assembly: AssemblyTitle("PowerLinkV2")> 
-<Assembly: AssemblyDescription("Application to communicate with Mfm using ModbusRtu Protocol")> 
+<Assembly: AssemblyDescription("One application to communicate with different make MFM meters.")> 
 <Assembly: AssemblyCompany("EngineersKatta")> 
 <Assembly: AssemblyProduct("PowerLinkV2")> 
-<Assembly: AssemblyCopyright("Nil")> 
+<Assembly: AssemblyCopyright("GNU GPLv3,  uses Easymodbus.dll a product from  Rossmann-Engineering")> 
 <Assembly: AssemblyTrademark("Nil")> 
 
 <Assembly: ComVisible(False)>
@@ -31,5 +31,5 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("2.1.0.3")> 
-<Assembly: AssemblyFileVersion("2.1.0.3")> 
+<Assembly: AssemblyVersion("2.1.0.5")> 
+<Assembly: AssemblyFileVersion("2.1.0.5")> 

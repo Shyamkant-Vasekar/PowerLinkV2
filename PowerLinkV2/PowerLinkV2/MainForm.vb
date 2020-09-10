@@ -1,4 +1,51 @@
-﻿Imports EasyModbus.ModbusClient
+﻿' ****************************************************************************
+'   MainForm.vb
+' 
+'   Copyright 2020 EngineersKatta
+' 
+'   This file is part of PowerLinkV2.
+' 
+'   PowerLinkV2 is free software: you can redistribute it and/or modify
+'   it under the terms of the GNU General Public License as published by
+'   the Free Software Foundation, either version 3 of the License, or
+'   (at your option) any later version.
+' 
+'   PowerLinkV2 is distributed in the hope that it will be useful,
+'   but WITHOUT ANY WARRANTY; without even the implied warranty of
+'   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+'   GNU General Public License for more details.
+' 
+'   You should have received a copy of the GNU General Public License
+'   along with PowerLinkV2. If not, see <http://www.gnu.org/licenses/>.
+' 
+'   See COPYING file for the complete license text.
+
+
+
+'*******************************************************************************
+'   Modbus TCP, Modbus UDP and Modbus RTU client/server library
+
+'   Copyright (c) 2018-2020 Rossmann-Engineering 
+
+'   Permission is hereby granted, free of charge, to any person obtaining a copy 
+'   of this software and associated documentation files (the "Software"), to deal
+'   in the Software without restriction, including without limitation the rights 
+'   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell 
+'   copies of the Software, and to permit persons to whom the Software is 
+'   furnished to do so, subject to the following conditions:
+
+'   The above copyright notice and this permission notice shall be included in 
+'   all copies or substantial portions of the Software.
+
+'   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+'   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+'   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL 
+'   THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+'   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
+'   FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+'   DEALINGS IN THE SOFTWARE.
+
+Imports EasyModbus.ModbusClient
 Imports Mfm.GeneralMfm
 Imports System.Runtime.InteropServices 'For extracting icons from Shell.dll
 Imports System.Data.SqlClient
@@ -12,7 +59,8 @@ Public Class MainForm
 
     'For logging hourly
     Dim PreWebWrittenHr As Integer
-
+    Dim StopWatchForMonitoringUploadInterval As New Stopwatch
+    Dim UploadInterval As Long
 
     Dim dragging As Boolean
     Dim ClickX As Integer
@@ -103,6 +151,7 @@ Public Class MainForm
             CmdConnect.Enabled = False
             INTERRUPTED = False
             TimerPolling.Enabled = True     'DevRem: 19/02/20 instead of loop timer is used as previous 
+            'Wait(15000) 'REVIEW NEEDED TIME TO ALL METER POLLING
             'TimerWebUpdate.Enabled = True
             TimerPolling_Tick(sender, e)
         End If
@@ -111,7 +160,7 @@ Public Class MainForm
 
     Private Sub CmdEdit_Click(sender As Object, e As EventArgs) Handles CmdEdit.Click
         TimerPolling.Enabled = False
-        TimerWebUpdate.Enabled = False
+        'TimerWebUpdate.Enabled = False
         StopPolling()   'Explicit required otherwise all meters doesnot stops
         INTERRUPTED = True
         CmdEdit.Enabled = False
@@ -147,6 +196,7 @@ Public Class MainForm
             CmbBaud.SelectedIndex = My.Settings.LastBaudRateSelNdx
             CmbPort.SelectedIndex = My.Settings.LastPortSelNdx
             SetPollingTime(My.Settings.LastPollingTimeSelNdx)
+            SetWebUploadTime(My.Settings.LastWebUpdateTimeSelNdx)
             UidBus1Kv = My.Settings.UnitIdBus1Kv
             UidBus2Kv = My.Settings.UnitIdBus2Kv
 
@@ -175,12 +225,6 @@ Public Class MainForm
 
     Private Sub TimerPolling_Tick(sender As Object, e As EventArgs) Handles TimerPolling.Tick
 
-        'If FirstPolling Then    'Subsquent polling as per setting
-        '    SetPollingTime(My.Settings.LastPollingTimeSelNdx)
-        '    FirstPolling = False    'IT becomes trur on every click of run
-        'End If
-
-
         Application.DoEvents()
         Dim Cntrl As Control
         For Each Cntrl In Me.Controls
@@ -200,36 +244,37 @@ Public Class MainForm
             End If
         Next
         StsLblLastRefresh.Text = Format(Now(), "HH:mm:ss")
-        TimerWebUpdate_Tick(sender, e)
-    End Sub
+        'TimerWebUpdate_Tick(sender, e)
 
-    Private Sub Wait(ByVal interval As Integer)
-        Dim sw As New Stopwatch
-        sw.Start()
-        Do While sw.ElapsedMilliseconds < interval
-            ' Allows UI to remain responsive
-            Application.DoEvents()
-        Loop
-        sw.Stop()
-    End Sub
+        'Display Internet Status
+        If NetworkAvailable Then
+            CmdNetSts.Enabled = True
+        Else
+            CmdNetSts.Enabled = False
+        End If
 
-    'Timer to write on web tries after every 3 minutes and if one hour passed writes
-    '***************************************************************************************
-    '       NOTE: CALLED THROUGH TimerPolling_Tick even after every  3 seconds
-    '***************************************************************************************
-    Private Sub TimerWebUpdate_Tick(sender As Object, e As EventArgs) Handles TimerWebUpdate.Tick
-        LblWebTick.Text = Format(Now(), "HH:mm")
-        Application.DoEvents()
-        'MsgBox("Web")
+
+
+
+        'Copied from TimerWebUpdate_Tick
         'For status display
         Dim PendingRec As Integer
         Dim NowUploaded As Integer
         Dim NowUploadTm As Date
-        Dim Cntrl As Control
 
-        'If new hour started and lapsed time is less than 5 minutes then
-        'Hourly FIRST transfer data to local data set'
-        If (PreWebWrittenHr <> Now.Hour And (Now.Minute < 12)) Then
+        '//////////////////////////////////////////////////////////////////////////////////
+        '            Stage-1 Save to local data base once upload interval time over
+        If (IsDesiredTimeLapsed(UploadInterval) And IsTimeNowMinAreDivisibleBy(UploadInterval)) Then
+            RestartUploadTimeLapsedMeasurement()
+            LblWebTick.Text = Format(Now(), "HH:mm")
+            Application.DoEvents()
+            'MsgBox("Web")
+
+            'Dim Cntrl As Control
+
+            'If new hour started and lapsed time is less than 5 minutes then
+            'Hourly FIRST transfer data to local data set'
+            'If (PreWebWrittenHr <> Now.Hour And (Now.Minute < 12)) Then
             'If True Then
             For Each Cntrl In Me.Controls
                 If TypeOf (Cntrl) Is Mfm.GeneralMfm Then
@@ -249,15 +294,8 @@ Public Class MainForm
         End If
 
 
-
-        'Display Internet Status
-        If NetworkAvailable Then
-            CmdNetSts.Enabled = True
-        Else
-            CmdNetSts.Enabled = False
-        End If
-
-        'THEN Try to update to remote
+        '//////////////////////////////////////////////////////////////////////////
+        '     Stage-2 THEN Try to update to remote in each polling instance if record is pending and network is available
         PendingRec = RecordsPending()
         If NetworkAvailable And PendingRec > 0 Then
             Try
@@ -266,7 +304,8 @@ Public Class MainForm
                 PwrDataAdapterL.Fill(PwrDataSetL)           'Load local data set with un-uploaded data if any
                 TransferDataFromLocalToRemoteDataSet()      'Transfer that data to remote data set
                 NowUploaded = PwrDataAdapterR.Update(PwrDataSetR)         'Upload the data
-                PwrDataAdapterR.Fill(PwrDataSetR)          'Read JUST NOW uploaded data
+                'MsgBox(NowUploaded.ToString)
+                'PwrDataAdapterR.Fill(PwrDataSetR)          'Read JUST NOW uploaded data THIS WAS CULPRIT IN 2.1.0.3
                 If NowUploaded = PwrDataSetL.Tables("MfmData000").Rows.Count Then
                     ModifyUploadedStatus()                      'Modify uploaded status in local data set
                     PwrDataAdapterL.Update(PwrDataSetL)         'Write uploaded status to local db file
@@ -278,6 +317,7 @@ Public Class MainForm
                 'To display as previous if not change during this upload 
                 NowUploaded = CInt(StsLblRecUplodaed.Text)
                 NowUploadTm = CDate(StsLblLastUploadDtTm.Text)
+                MsgBox(ex.Message)
             End Try
         Else
             'To display as previous if not change during this upload 
@@ -290,6 +330,98 @@ DontTry:
         StsLblLastUploadDtTm.Text = Format(NowUploadTm, "dd/MM/yy HH:mm")
         StsLblPendingRecords.Text = Format(PendingRec, "000")
         StsLblRecUplodaed.Text = Format(NowUploaded, "000")
+
+
+
+
+    End Sub
+
+    Private Sub Wait(ByVal interval As Integer)
+        Dim sw As New Stopwatch
+        sw.Start()
+        Do While sw.ElapsedMilliseconds < interval
+            ' Allows UI to remain responsive
+            Application.DoEvents()
+        Loop
+        sw.Stop()
+    End Sub
+
+    'Timer to write on web tries after every 3 minutes and if one hour passed writes
+    '***************************************************************************************
+    '       NOTE: CALLED THROUGH TimerPolling_Tick even after every  3 seconds
+    '***************************************************************************************
+    Private Sub TimerWebUpdate_Tick(sender As Object, e As EventArgs) Handles TimerWebUpdate.Tick
+
+
+
+        '        LblWebTick.Text = Format(Now(), "HH:mm")
+        '        Application.DoEvents()
+        '        'MsgBox("Web")
+        '        'For status display
+        '        Dim PendingRec As Integer
+        '        Dim NowUploaded As Integer
+        '        Dim NowUploadTm As Date
+        '        Dim Cntrl As Control
+
+        '        'If new hour started and lapsed time is less than 5 minutes then
+        '        'Hourly FIRST transfer data to local data set'
+        '        'If (PreWebWrittenHr <> Now.Hour And (Now.Minute < 12)) Then
+        '        If True Then
+        '            For Each Cntrl In Me.Controls
+        '                If TypeOf (Cntrl) Is Mfm.GeneralMfm Then
+        '                    Dim x As Mfm.GeneralMfm
+        '                    x = Cntrl
+        '                    If x.Connected Then
+        '                        CreateDataRowInLocalDataset(x)
+        '                        Try
+        '                            PwrDataAdapterL.Update(PwrDataSetL) 'Inserted record from memory to local db file
+        '                        Catch ex As Exception
+        '                            'MsgBox(ex.Message)
+        '                        End Try
+        '                    End If
+        '                End If
+        '            Next
+        '            PreWebWrittenHr = Now.Hour  'All Mfm Logging completed for this hour
+        '        End If
+
+
+        '        'THEN Try to update to remote
+        '        PendingRec = RecordsPending()
+        '        If NetworkAvailable And PendingRec > 0 Then
+        '            Try
+        '                PwrDataSetL.Tables("MfmData000").Clear()    'Clear previous data if any
+        '                PwrDataSetR.Tables("MfmData020").Clear()
+        '                PwrDataAdapterL.Fill(PwrDataSetL)           'Load local data set with un-uploaded data if any
+        '                TransferDataFromLocalToRemoteDataSet()      'Transfer that data to remote data set
+        '                NowUploaded = PwrDataAdapterR.Update(PwrDataSetR)         'Upload the data
+        '                PwrDataAdapterR.Fill(PwrDataSetR)          'Read JUST NOW uploaded data
+        '                If NowUploaded = PwrDataSetL.Tables("MfmData000").Rows.Count Then
+        '                    ModifyUploadedStatus()                      'Modify uploaded status in local data set
+        '                    PwrDataAdapterL.Update(PwrDataSetL)         'Write uploaded status to local db file
+        '                    NowUploadTm = Now()
+        '                Else
+        '                    GoTo DontTry
+        '                End If
+        '            Catch ex As Exception
+        '                'To display as previous if not change during this upload 
+        '                NowUploaded = CInt(StsLblRecUplodaed.Text)
+        '                NowUploadTm = CDate(StsLblLastUploadDtTm.Text)
+        '                'MsgBox(ex.Message)
+        '            End Try
+        '        Else
+        '            'To display as previous if not change during this upload 
+        '            NowUploaded = CInt(StsLblRecUplodaed.Text)
+        '            NowUploadTm = CDate(StsLblLastUploadDtTm.Text)
+        '        End If
+
+        'DontTry:
+        '        PendingRec = RecordsPending()
+        '        StsLblLastUploadDtTm.Text = Format(NowUploadTm, "dd/MM/yy HH:mm")
+        '        StsLblPendingRecords.Text = Format(PendingRec, "000")
+        '        StsLblRecUplodaed.Text = Format(NowUploaded, "000")
+
+
+
 
     End Sub
 
@@ -388,6 +520,7 @@ DontTry:
             If CmdConnected.Enabled = True Then 'That means connection done
                 CmdConnect.Text = "Disconnect"
                 CmbPollingTimer.Enabled = False
+                CmbWebUploadTimer.Enabled = False
                 CmbPort.Enabled = False
                 CmbBaud.Enabled = False
                 CmdConnect.BackColor = SystemColors.GradientActiveCaption
@@ -406,9 +539,10 @@ DontTry:
             CmdRun.Enabled = False
             CmdEdit.Enabled = False
             TimerPolling.Enabled = False
-            TimerWebUpdate.Enabled = False
+            'TimerWebUpdate.Enabled = False
             CmdConnected.Enabled = False
             CmbPollingTimer.Enabled = True
+            CmbWebUploadTimer.Enabled = True
             CmbPort.Enabled = True
             CmbBaud.Enabled = True
             StopPolling()
@@ -426,7 +560,6 @@ DontTry:
             End If
         Next
     End Sub
-
 
     'ADD METER MENU CLICK
     '==========================================================================================================
@@ -469,7 +602,6 @@ DontTry:
         MouseUpSettingSingleControl(CustomX)
     End Sub
 
-
     'CONTEXT MENU ITEM SUBROUTINES
     '=============================================================================================================
     Private Sub SetIdTSMI_Click(sender As Object, e As EventArgs) Handles SetIdTSMI.Click
@@ -504,6 +636,7 @@ DontTry:
         ThisMeter.BackColor = ColorDialog1.Color
         'Me.TopMost = True
     End Sub
+
     Private Sub DeleteTSMI_Click(sender As Object, e As EventArgs) Handles DeleteTSMI.Click
         Dim ThisMeter As Mfm.GeneralMfm
         Me.TopMost = False
@@ -637,7 +770,6 @@ DontTry:
         'Me.TopMost = True
     End Sub
 
-
     Private Sub SecureElite4ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SecureElite4ToolStripMenuItem.Click
         Dim SecureX As New Mfm.GeneralMfm
         SecureX.Left = 100
@@ -688,7 +820,6 @@ DontTry:
         End If
     End Sub
 
-
     Private Sub SetPollingTime(ByVal N As Integer)
 
         Select Case N
@@ -713,6 +844,30 @@ DontTry:
         CmbPollingTimer.SelectedIndex = N
     End Sub
 
+    Private Sub SetWebUploadTime(ByVal N As Integer)
+
+        Select Case N
+            Case 0                                  '1 min
+                'TimerWebUpdate.Interval = 60000
+                UploadInterval = 60000
+            Case 1                                  '5 min
+                'TimerWebUpdate.Interval = 300000
+                UploadInterval = 300000 - 40000     'Keep ready 40 sec before time polling (valid for polling time more than 1 min) 
+            Case 2                                  '15 min
+                'TimerWebUpdate.Interval = 900000
+                UploadInterval = 900000 - 40000     'Keep ready 40 sec before time polling (valid for polling time more than 1 min) 
+            Case 3                                  '30 min
+                'TimerWebUpdate.Interval = 1800000
+                UploadInterval = 1800000 - 40000    'Keep ready 40 sec before time polling (valid for polling time more than 1 min) 
+            Case 4                                  '60 min
+                'TimerWebUpdate.Interval = 3600000
+                UploadInterval = 3600000 - 40000    'Keep ready 40 sec before time polling (valid for polling time more than 1 min) 
+        End Select
+
+        My.Settings.LastWebUpdateTimeSelNdx = N
+        CmbWebUploadTimer.SelectedIndex = N
+    End Sub
+
     Private Sub CmdClrPending_Click(sender As Object, e As EventArgs) Handles CmdClrPending.Click
         Dim pnd As Integer
 
@@ -727,8 +882,6 @@ DontTry:
     Private Sub CmbPollingTimer_Click(sender As Object, e As EventArgs) Handles CmbPollingTimer.Click
         SetPollingTime(CmbPollingTimer.SelectedIndex)
     End Sub
-
-
 
     Private Sub LinkToUnitTSMI_Click(sender As Object, e As EventArgs) Handles LinkToUnitTSMI.Click
         Try
@@ -748,6 +901,74 @@ DontTry:
 
 
 
+    End Sub
+
+    Private Sub ToolStripLabel4_Click(sender As Object, e As EventArgs) Handles ToolStripLabel4.Click
+
+    End Sub
+
+    Private Sub CmbWebUploadTimer_Click(sender As Object, e As EventArgs) Handles CmbWebUploadTimer.Click
+        SetWebUploadTime(CmbWebUploadTimer.SelectedIndex)
+    End Sub
+
+    Private Sub CmbWebUploadTimer_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbWebUploadTimer.SelectedIndexChanged
+        SetWebUploadTime(CmbWebUploadTimer.SelectedIndex)
+    End Sub
+
+    Private Function IsDesiredTimeLapsed(ByVal TimeInterval As Long) As Boolean
+        'May not be needed as we have introduced sub RestartUploadTimeLapsedMeasurement
+        If Not StopWatchForMonitoringUploadInterval.IsRunning Then
+            StopWatchForMonitoringUploadInterval.Start()
+        End If
+        If StopWatchForMonitoringUploadInterval.ElapsedMilliseconds > TimeInterval Then
+            StopWatchForMonitoringUploadInterval.Stop()
+            IsDesiredTimeLapsed = True
+        Else
+            IsDesiredTimeLapsed = False
+        End If
+    End Function
+
+    Private Sub RestartUploadTimeLapsedMeasurement()
+        StopWatchForMonitoringUploadInterval.Reset()
+        StopWatchForMonitoringUploadInterval.Start()
+    End Sub
+
+
+    Private Function IsTimeNowMinAreDivisibleBy(ByVal interval As Long) As Boolean
+        Select Case interval
+            Case 60000                                  '1 min
+                IsTimeNowMinAreDivisibleBy = True
+            Case 260000                                  '5 min
+                If (Now().Minute Mod 5 < 2) Then
+                    IsTimeNowMinAreDivisibleBy = True
+                Else
+                    IsTimeNowMinAreDivisibleBy = False
+                End If
+            Case 860000                                  '15 min
+                If (Now().Minute Mod 15 < 4) Then
+                    IsTimeNowMinAreDivisibleBy = True
+                Else
+                    IsTimeNowMinAreDivisibleBy = False
+                End If
+            Case 1760000                                  '30 min
+                If (Now().Minute Mod 30 < 7) Then
+                    IsTimeNowMinAreDivisibleBy = True
+                Else
+                    IsTimeNowMinAreDivisibleBy = False
+                End If
+            Case 3560000                                  '60 min
+                If (Now().Minute < 12) Then
+                    IsTimeNowMinAreDivisibleBy = True
+                Else
+                    IsTimeNowMinAreDivisibleBy = False
+                End If
+            Case Else
+                IsTimeNowMinAreDivisibleBy = False
+        End Select
+    End Function
+
+    Private Sub CmdAbout_Click(sender As Object, e As EventArgs) Handles CmdAbout.Click
+        AboutBox1.Show()
     End Sub
 End Class
 

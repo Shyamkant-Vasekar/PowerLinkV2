@@ -80,7 +80,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("1")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("4")>  _
         Public Property LastPollingTimeSelNdx() As Integer
             Get
                 Return CType(Me("LastPollingTimeSelNdx"),Integer)
@@ -123,6 +123,18 @@ Namespace My
             End Get
             Set
                 Me("UnitIdBus2Kv") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("4")>  _
+        Public Property LastWebUpdateTimeSelNdx() As Integer
+            Get
+                Return CType(Me("LastWebUpdateTimeSelNdx"),Integer)
+            End Get
+            Set
+                Me("LastWebUpdateTimeSelNdx") = value
             End Set
         End Property
     End Class

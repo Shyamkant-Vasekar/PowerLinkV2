@@ -9,7 +9,7 @@
       <Value Profile="(Default)">3</Value>
     </Setting>
     <Setting Name="LastPollingTimeSelNdx" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">1</Value>
+      <Value Profile="(Default)">4</Value>
     </Setting>
     <Setting Name="FirstPollingTime" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1000</Value>
@@ -18,6 +18,9 @@
       <Value Profile="(Default)">3</Value>
     </Setting>
     <Setting Name="UnitIdBus2Kv" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">4</Value>
+    </Setting>
+    <Setting Name="LastWebUpdateTimeSelNdx" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">4</Value>
     </Setting>
   </Settings>
