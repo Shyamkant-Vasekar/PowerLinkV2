@@ -81,7 +81,7 @@ Public Class MainForm
     Public PwrDataSetR As DataSet
     Public PwrDataTableR As DataTable
     Public PwrDataAdapterR As SqlDataAdapter
-    Public ConStrR As String = "Data Source=148.72.232.168;Integrated Security=False;User ID=spvasekar; Password=Mydatabasepassword#1"
+    Public ConStrR As String = "Data Source=YOUR_SERVER_USERNAME_PSW;Integrated Security=False;User ID=spvasekar; Password=Mydatabasepassword#1"
     Public conR As SqlConnection
 
 

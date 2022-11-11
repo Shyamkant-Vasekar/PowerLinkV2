@@ -34,3 +34,11 @@ License.rtf file and LicenseToDisplay.txt file added
 Version changed to 2.1.0.5 for Main program; for Mfm.dll version kept same as we are distributing binaries
 and license information is at start of source only binary is as it was.
 
+
+Dt 11/11/22
+
+Due to change in GoDaddy website database server IP it is necessary to update the connection string.
+Connection string is updated.
+
+New server name is
+SG2NWPLS19SQL-v06.mssql.shr.prod.sin2.secureserver.net
